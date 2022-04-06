@@ -430,7 +430,7 @@
                                     cell.style.backgroundPositionX = -(cellSize * column + this.getOffsetX()) + 'px';
                                     cell.style.backgroundPositionY = -(cellSize * row + this.getOffsetY()) + 'px';
                                     cell.classList.add('cell');
-                                    cell.textContent = ++count;
+                                    //cell.textContent = ++count;
                                     cell.style.color = 'white';
                                     if (!empty) {
                                         cell.addEventListener('click', () => {
@@ -493,7 +493,7 @@
 
                 }
                 randomize() {
-                    for (let i = 0; i < 1; i++) {
+                    for (let i = 0; i < 100; i++) {
                         const random = Math.floor(Math.random() * 4);
 
                         switch (random) {
