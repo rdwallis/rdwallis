@@ -63,7 +63,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: #000;
+            #background: #000;
             overflow: hidden;
 
         }
@@ -72,7 +72,6 @@
             text-align: center;
             margin-top: 30px;
             padding: 0;
-            color: white;
         }
 
         .pyro > .before, .pyro > .after {
@@ -326,6 +325,7 @@
             function actualAfterMove() {
                 console.log("Board is correct: ", root.isCorrect());
                 if (root.isCorrect()) {
+                    document.getElementsByTagName('body')[0].style.backgroundColor = '#000';
                     won.play();
                     let emptyElems = document.getElementsByClassName('empty');
                     try {
@@ -383,7 +383,6 @@
 
             class Board {
                 constructor(rowLength, columnLength, recursion, correctRow, correctColumn, parent, ignore) {
-                    this.hasWon = false;
                     this.element = document.createElement('div');
                     this.element.classList.add('grid');
                     if (ignore) {
