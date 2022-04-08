@@ -80,6 +80,13 @@
             margin-top: 30px;
             padding: 0;
         }
+        .correct {
+
+        }
+        .incorrect {
+            background-blend-mode: difference;
+            background-color: hsla(0, 100%, 50%, 0.35);
+        }
 
         .pyro > .before, .pyro > .after {
             position: absolute;
@@ -357,19 +364,13 @@
             function processBetterWorse() {
                 const rand = Math.floor(Math.random() * 5);
                 if (betterer && worser) {
-                    if (rand < maybeSounds.length) {
-                        maybeSounds[rand].play();
-                    }
+                    maybeSounds[Math.floor(Math.random() * (maybeSounds.length - 1))].play();
                     console.log("1 step forward, 2 steps back");
                 } else if (betterer) {
-                    if (rand < positiveSounds.length) {
-                        positiveSounds[rand].play();
-                    }
+                    positiveSounds[Math.floor(Math.random() * (positiveSounds.length - 1))].play();
                     console.log("Betterer");
                 } else if (worser) {
-                    if (rand < negativeSounds.length) {
-                        negativeSounds[rand].play();
-                    }
+                    negativeSounds[Math.floor(Math.random() * (negativeSounds.length - 1))].play();
                     console.log("Worser");
                 }
                 betterer = false;
@@ -544,18 +545,29 @@
                         for (let column = 0; column < this.columnLength; column++) {
                             if (this.ary[row] && this.ary[row][column]) {
                                 let elem;
-                                if (this.ary[row][column] instanceof Board) {
+                                let isBoard = this.ary[row][column] instanceof Board;
+                                if (isBoard) {
                                     elem = this.ary[row][column].element;
-                                    correct = correct && this.ary[row][column].isCorrect();
+                                    correct = this.ary[row][column].isCorrect() && correct;
                                 } else {
                                     elem = this.ary[row][column];
                                 }
                                 let dataset = elem.dataset;
                                 // noinspection EqualityComparisonWithCoercionJS
-                                correct = correct && dataset.correctColumn == column && dataset.correctRow == row;
-                            }
-                            if (!correct) {
-                                return false;
+                                let cellCorrect = dataset.correctColumn == column && dataset.correctRow == row
+                                if (cellCorrect) {
+                                    if (!isBoard) {
+
+                                        elem.classList.add('correct');
+                                        elem.classList.remove('incorrect');
+                                    }
+                                } else {
+                                    if (!isBoard) {
+                                        elem.classList.add('incorrect');
+                                        elem.classList.remove('correct');
+                                    }
+                                    correct = false;
+                                }
                             }
                         }
                     }
@@ -632,14 +644,19 @@
                                         if (animate && dataset.correctRow == row) {
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctColumn == column) {
+                                                elem.classList.remove('correct');
+                                                elem.classList.add('incorrect');
                                                 worse();
                                             }
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctColumn == column - 1) {
+                                                elem.classList.add('correct');
+                                                elem.classList.remove('incorrect');
                                                 better();
                                             }
                                         }
                                         if (animate) {
+
                                             elem.style.animationName = 'left';
                                         } else {
                                             elem.style.gridColumnStart = (parseInt(elem.style.gridColumnStart) - 1) + '';
@@ -679,10 +696,14 @@
                                         if (animate && dataset.correctRow == row) {
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctColumn == column) {
+                                                elem.classList.remove('correct');
+                                                elem.classList.add('incorrect');
                                                 worse();
                                             }
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctColumn == column + 1) {
+                                                elem.classList.add('correct');
+                                                elem.classList.remove('incorrect');
                                                 better();
                                             }
                                         }
@@ -728,10 +749,14 @@
                                         if (animate && dataset.correctColumn == column) {
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctRow == row) {
+                                                elem.classList.remove('correct');
+                                                elem.classList.add('incorrect');
                                                 worse();
                                             }
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctRow == row - 1) {
+                                                elem.classList.add('correct');
+                                                elem.classList.remove('incorrect');
                                                 better();
                                             }
                                         }
@@ -776,10 +801,14 @@
                                         if (animate && dataset.correctColumn == column) {
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctRow == row) {
+                                                elem.classList.remove('correct');
+                                                elem.classList.add('incorrect');
                                                 worse();
                                             }
                                             // noinspection EqualityComparisonWithCoercionJS
                                             if (dataset.correctRow == row + 1) {
+                                                elem.classList.add('correct');
+                                                elem.classList.remove('incorrect');
                                                 better();
                                             }
                                         }
