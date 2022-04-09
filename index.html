@@ -364,10 +364,10 @@
             function processBetterWorse() {
                 const rand = Math.floor(Math.random() * 5);
                 if (betterer && worser) {
-                    maybeSounds[Math.floor(Math.random() * (maybeSounds.length - 1))].play();
+                    maybeSounds[Math.floor(Math.random() * (maybeSounds.length))].play();
                     console.log("1 step forward, 2 steps back");
                 } else if (betterer) {
-                    positiveSounds[Math.floor(Math.random() * (positiveSounds.length - 1))].play();
+                    positiveSounds[Math.floor(Math.random() * (positiveSounds.length))].play();
                     console.log("Betterer");
                 } else if (worser) {
                     //negativeSounds[Math.floor(Math.random() * (negativeSounds.length - 1))].play();
@@ -391,6 +391,7 @@
 
             class Board {
                 constructor(rowLength, columnLength, recursion, correctRow, correctColumn, parent, ignore) {
+                    this.preventMove = false;
                     this.element = document.createElement('div');
                     this.element.classList.add('grid');
                     if (ignore) {
@@ -453,7 +454,6 @@
 
 
                                         cell.addEventListener('click', () => {
-
                                             this.move(cell);
                                         });
                                         cell.addEventListener('touchstart', () => {
@@ -461,6 +461,17 @@
                                             this.move(cell);
                                         });
                                     } else {
+                                        cell.addEventListener('click', () => {
+                                            if (this.preventMove) {
+                                                this.parent.move(this.element);
+                                            }
+
+                                        });
+                                        cell.addEventListener('touchstart', () => {
+                                            if (this.preventMove) {
+                                                this.parent.move(this.element);
+                                            }
+                                        });
                                         cell.classList.add('empty');
                                     }
 
@@ -493,6 +504,15 @@
                 move(cell) {
                     const row = cell.style.gridRowStart - 1;
                     const column = cell.style.gridColumnStart - 1;
+                    this.moveRowColumn(row, column);
+                }
+                moveRowColumn(row, column) {
+                    if (this.preventMove) {
+                        if (this.parent) {
+                            this.parent.move(this.element);
+                        }
+                        return;
+                    }
                     if (column < this.columnLength - 1) {
                         if (!this.ary[row][column + 1]) {
                             this.right();
@@ -513,7 +533,6 @@
                             this.up();
                         }
                     }
-
                 }
                 randomize() {
                     for (let i = 0; i < 100; i++) {
@@ -577,6 +596,13 @@
                             }
                         }
                     }
+                    if (correct) {
+                        const children = this.element.children;
+                        for (let i = 0; i < children.length; i++) {
+                            children[i].classList.remove('empty');
+                        }
+                        this.preventMove = true;
+                    }
                     return correct;
                 }
 
@@ -625,6 +651,12 @@
                 }
 
                 left(child, animate = true) {
+                    if (this.preventMove) {
+                        if (this.parent) {
+                            this.parent.left(this, animate);
+                        }
+                        return;
+                    }
                     let moved = false;
                     for (let row = 0; row < this.rowLength; row++) {
                         for (let column = this.columnLength - 1; column >= 0; column--) {
@@ -639,11 +671,6 @@
                                         const cell = this.ary[row][column];
                                         this.ary[row][column - 1] = cell;
                                         this.ary[row][column] = null;
-                                        if (animate && this.parent) {
-                                            if (column === 1) {
-                                                this.parent.left(this);
-                                            }
-                                        }
                                         const elem = cell instanceof Board ? cell.element : cell;
                                         let dataset = elem.dataset;
                                         // noinspection EqualityComparisonWithCoercionJS
@@ -677,6 +704,12 @@
                 }
 
                 right(child, animate = true) {
+                    if (this.preventMove) {
+                        if (this.parent) {
+                            this.parent.right(this, animate);
+                        }
+                        return;
+                    }
                     let moved = false;
                     for (let row = 0; row < this.rowLength; row++) {
                         for (let column = 0; column < this.columnLength; column++) {
@@ -691,11 +724,6 @@
                                         const cell = this.ary[row][column];
                                         this.ary[row][column + 1] = cell
                                         this.ary[row][column] = null;
-                                        if (animate && this.parent) {
-                                            if (column === this.columnLength - 2) {
-                                                this.parent.right(this);
-                                            }
-                                        }
                                         const elem = cell instanceof Board ? cell.element : cell;
                                         let dataset = elem.dataset;
                                         // noinspection EqualityComparisonWithCoercionJS
@@ -729,6 +757,12 @@
                 }
 
                 up(child, animate = true) {
+                    if (this.preventMove) {
+                        if (this.parent) {
+                            this.parent.up(this, animate);
+                        }
+                        return;
+                    }
                     let moved = false;
                     for (let row = this.rowLength - 1; row >= 0; row--) {
                         for (let column = 0; column < this.columnLength; column++) {
@@ -744,11 +778,6 @@
                                         const cell = this.ary[row][column];
                                         this.ary[row - 1][column] = cell;
                                         this.ary[row][column] = null;
-                                        if (animate && this.parent) {
-                                            if (row === 1) {
-                                                this.parent.up(this);
-                                            }
-                                        }
                                         const elem = cell instanceof Board ? cell.element : cell;
                                         let dataset = elem.dataset;
                                         // noinspection EqualityComparisonWithCoercionJS
@@ -782,6 +811,12 @@
                 }
 
                 down(child, animate = true) {
+                    if (this.preventMove) {
+                        if (this.parent) {
+                            this.parent.down(this, animate);
+                        }
+                        return;
+                    }
                     let moved = false;
                     for (let row = 0; row < this.rowLength; row++) {
                         for (let column = 0; column < this.columnLength; column++) {
@@ -796,11 +831,6 @@
                                         const cell = this.ary[row][column];
                                         this.ary[row + 1][column] = cell;
                                         this.ary[row][column] = null;
-                                        if (animate && this.parent) {
-                                            if (row === this.rowLength - 2) {
-                                                this.parent.down(this);
-                                            }
-                                        }
                                         const elem = cell instanceof Board ? cell.element : cell;
                                         let dataset = elem.dataset;
                                         // noinspection EqualityComparisonWithCoercionJS
