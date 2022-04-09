@@ -321,6 +321,8 @@
             const cellSize = 100;
             const recSlider = document.getElementById('recSlider');
 
+            let lockmove = false;
+
             function debounce(func, wait, immediate) {
                 var timeout;
                 return function() {
@@ -454,22 +456,29 @@
 
 
                                         cell.addEventListener('click', () => {
-                                            this.move(cell);
+                                            if (!lockmove) {
+                                                this.move(cell);
+                                            }
                                         });
                                         cell.addEventListener('touchstart', () => {
-
-                                            this.move(cell);
+                                            if (!lockmove) {
+                                                this.move(cell);
+                                            }
                                         });
                                     } else {
                                         cell.addEventListener('click', () => {
                                             if (this.preventMove) {
-                                                this.parent.move(this.element);
+                                                if (!lockmove) {
+                                                    this.parent.move(this.element);
+                                                }
                                             }
 
                                         });
                                         cell.addEventListener('touchstart', () => {
                                             if (this.preventMove) {
-                                                this.parent.move(this.element);
+                                                if (!lockmove) {
+                                                    this.parent.move(this.element);
+                                                }
                                             }
                                         });
                                         cell.classList.add('empty');
@@ -481,6 +490,9 @@
                                 cell.style.gridRowStart = (row + 1) + '';
                                 cell.dataset.correctColumn = column;
                                 cell.dataset.correctRow = row;
+                                cell.addEventListener('animationstart', () => {
+                                    lockmove = true;
+                                });
                                 cell.addEventListener('animationend', () => {
                                     switch (cell.style.animationName) {
                                         case 'left' : cell.style.gridColumnStart = (parseInt(cell.style.gridColumnStart) - 1) + '';
@@ -491,7 +503,9 @@
                                             break;
                                         case 'down' : cell.style.gridRowStart = (parseInt(cell.style.gridRowStart) + 1) + '';
                                             break;
+
                                     }
+                                    lockmove = false;
                                     cell.style.animation = '';
                                 });
 
