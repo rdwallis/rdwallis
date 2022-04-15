@@ -318,7 +318,7 @@
             const won = new Audio('won.m4a');
 
             const picture = 'monkeyself.jpg';
-            const cellSize = 100;
+            const cellSize = 900 / 4;
             const recSlider = document.getElementById('recSlider');
 
             let lockmove = false;
@@ -895,7 +895,7 @@
                 }
             }
 
-            const root = new Board(3,3, 2, 0, 0);
+            const root = new Board(2,2, 2, 0, 0);
 
             function draw() {
                 recSlider.appendChild(root.getElement());
