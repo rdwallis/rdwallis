@@ -9,7 +9,8 @@
 </head>
 <body>
 <form id="searchForm">
-    <input type="search" name="search" placeholder="Search" id="search" style="font-size: x-large;  margin:50px" >
+    <input type="search" name="search" placeholder="Search" id="search" style="font-size: x-large;  margin:50px 5px 50px 50px" autofocus>
+    <input type="submit" value="Search" style="font-size: x-large;  margin: 5px 5px" >
 </form>
 
 <form id="bookmarkForm" action="bookmark">
@@ -33,7 +34,11 @@
     searchForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const search = document.getElementById('search').value;
-        goToFastest('/search?q=' + search);
+        if (search.indexOf('/') !== -1) {
+            goToFastest(removeBase(search))
+        } else {
+            goToFastest('/search?q=' + search);
+        }
     });
 
     const bookmarkForm = document.getElementById('bookmarkForm');
@@ -87,7 +92,9 @@
     ]);
 
     function removeBase(path) {
-        urls.forEach(url => {
+        const extra = ['https://www.youtube.com', 'https://youtube.com'];
+        extra.push(urls);
+        extra.forEach(url => {
             path = path.replace(url, '');
         })
         return path;
