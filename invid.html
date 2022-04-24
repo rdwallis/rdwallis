@@ -41,7 +41,7 @@
         e.preventDefault();
         const bookmark = removeBase(document.getElementById('bookmark').value);
         const bookmarkName = document.getElementById('bookmarkName').value;
-        document.getElementById('bookmarkHolder').innerHTML = '<a href="https://rdwallis.github.io/rdwallis/Invid#' + bookmark + '" style="font-size: xxx-large">' + bookmarkName + '</a>';
+        document.getElementById('bookmarkHolder').innerHTML = '<a href="https://rdwallis.github.io/rdwallis/invid#' + bookmark + '" style="font-size: xxx-large">' + bookmarkName + '</a>';
     });
 
     function shuffle(array) {
@@ -108,7 +108,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.hash;
         if (path.length > 5) {
-            goToFastest(path);
+            goToFastest(path.substring(1));
         }
     });
 
