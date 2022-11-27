@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FI</title>
+    <style>
+        * { box-sizing: border-box};
+    </style>
+</head>
+<body>
+<form id="searchForm">
+    <input type="search" name="search" placeholder="Search" id="search" style="font-size: x-large;  margin:50px 5px 50px 50px" autofocus>
+    <input type="submit" value="Search" style="font-size: x-large;  margin: 5px 5px" >
+</form>
+
+<form id="bookmarkForm" action="bookmark">
+    <input type="text" name="bookmarkName" placeholder="Bookmark Name" id="bookmarkName" style="font-size: x-large;  margin: 10px 50px" >
+    <br/>
+    <input type="text" name="bookmark" placeholder="Bookmark" id="bookmark" style="font-size: x-large;  margin: 10px 50px" >
+    <br/>
+    <input type="submit" value="Create Bookmark" style="font-size: x-large;  margin: 10px 50px" >
+</form>
+
+<div id="bookmarkHolder" style="margin:20px;">
+
+</div>
+
+<div id="redirectStatus">
+
+</div>
+<script type="text/javascript">
+
+    const searchForm = document.getElementById('searchForm');
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const search = document.getElementById('search').value;
+        if (search.indexOf('/') !== -1) {
+            goToFastest(removeBase(search))
+        } else {
+            goToFastest('/search?q=' + search);
+        }
+    });
+
+    const bookmarkForm = document.getElementById('bookmarkForm');
+    bookmarkForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const bookmark = removeBase(document.getElementById('bookmark').value);
+        const bookmarkName = document.getElementById('bookmarkName').value;
+        document.getElementById('bookmarkHolder').innerHTML = '<a href="https://rdwallis.github.io/rdwallis/invid#' + bookmark + '" style="font-size: xxx-large">' + bookmarkName + '</a>';
+    });
+
+    function shuffle(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+    const urls = shuffle([
+        'https://invidious.snopyta.org',
+        'https://yewtu.be',
+        'https://invidious.kavin.rocks',
+        'https://vid.puffyan.us',
+        'https://invidious.namazso.eu',
+        'https://inv.riverside.rocks',
+        //'https://invidious.osi.kr',
+        'https://invidio.xamh.de',
+        'https://youtube.076.ne.jp',
+        'https://yt.artemislena.eu',
+        'https://tube.cthd.icu',
+        'https://invidious.flokinet.to',
+        'https://invidious.privacy.gd',
+        'https://invidious.weblibre.org',
+        'https://invidious.kamikazewarfare.com',
+        'https://invidious.esmailelbob.xyz',
+        'https://invidious.lunar.icu',
+        'https://invidious.mutahar.rocks',
+        'https://inv.bp.mutahar.rocks',
+        'https://y.com.sb'
+    ]);
+
+    function removeBase(path) {
+        const extra = ['https://www.youtube.com', 'https://youtube.com'];
+        extra.push(urls);
+        extra.forEach(url => {
+            path = path.replace(url, '');
+        })
+        return path;
+    }
+
+    function goToFastest(path) {
+        urls.forEach(url => {
+            fetch(url)
+                .then(response =>
+                    response.text()).catch(() => {
+                        document.getElementById('redirectStatus').innerHTML = 'Going to ' + url + path + '...';
+                   window.location.href = url + path;
+            });
+        });
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const path = window.location.hash;
+        if (path.length > 5) {
+            goToFastest(path.substring(1));
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
