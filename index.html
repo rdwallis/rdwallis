@@ -55,13 +55,23 @@
             z-index:10;
             font-size: xxx-large;
             transform: rotate(45deg) scaleX(4) scaleY(4);
-            margin-right:auto;
-            margin-left: auto;
-            left: 100px;
-            top: 200px;
+
+            left: 30%;
+            top: 30%;
             text-shadow: #000 1px 1px;
             color: darkred;
+            animation: 1s fadeIn;
+            animation-fill-mode: forwards;
+            visibility: hidden;
+        }
 
+        @keyframes fadeIn {
+            99% {
+                visibility: hidden;
+            }
+            100% {
+                visibility: visible;
+            }
         }
 
         .photo {
