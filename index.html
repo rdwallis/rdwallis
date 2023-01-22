@@ -23,7 +23,9 @@ It is very hot here!
 
 <script type="text/javascript">
     function updateClockTime() {
-        const time = new Date().toLocaleTimeString("en-US", {timeZone: "Africa/Johannesburg"});
+        const time = new Date().toLocaleTimeString("en-US", {
+            timeZone: "Africa/Johannesburg",hour: '2-digit', minute:'2-digit'
+        });
         document.getElementById("clock").innerText = time;
     }
     updateClockTime();
