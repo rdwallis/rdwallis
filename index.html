@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Richard Wallis</title>
+</head>
+<body style="margin-top:20px; text-align: center">
+
+<a style="font-size: 48px;" href="sale/">Click Here to visit House Sale Page</a>
+
+<h1>Richard's Website</h1>
+
+This page is not yet updated automatically so may be out of date.
+
+<h2>I'm currently in Durban</h2>
+
+<h2>The time in Durban is <span id="clock"></span></h2>
+
+
+
+</body>
+
+<script type="text/javascript">
+    function updateClockTime() {
+        const time = new Date().toLocaleTimeString("en-US", {timeZone: "Africa/Johannesburg"});
+        document.getElementById("clock").innerText = time;
+    }
+    updateClockTime();
+    setInterval(updateClockTime, 1000);
+</script>
+</html>
