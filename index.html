@@ -18,7 +18,7 @@
 
 <h2>I'm currently in Mauritius</h2>
 
-<h2>The time in Joburg is <span id="clock"></span></h2>
+<h2>The time in Mauritius is <span id="clock"></span></h2>
 
 <h2>2023-02-29</h2>
 
@@ -33,7 +33,7 @@ I was in Durban
 <script type="text/javascript">
     function updateClockTime() {
         const time = new Date().toLocaleTimeString("en-US", {
-            timeZone: "Africa/Johannesburg",hour: '2-digit', minute:'2-digit'
+            timeZone: "Indian/Mauritius",hour: '2-digit', minute:'2-digit'
         });
         document.getElementById("clock").innerText = time;
     }
