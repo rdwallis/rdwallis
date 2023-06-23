@@ -19,11 +19,17 @@
 
 <b>This page is hand coded on a cellphone so don't expect too much</b>
 
-<h2>I'm currently in Mauritius</h2>
+<h2>I'm currently in Johannesburg</h2>
+
+<h2>The time in Johannesburg is <span id="clock"></span></h2>
+
+<h2>2023-06-22</h2>
+
+I was  in Mauritius
 
 <img src="Flic_en_Flac_Beach.jpeg">
 
-<h2>The time in Mauritius is <span id="clock"></span></h2>
+
 <h2>2023-02-30</h2>
 I was in Joburg
 <h2>2023-02-29</h2>
@@ -42,7 +48,7 @@ I was in Durban
 <script type="text/javascript">
     function updateClockTime() {
         const time = new Date().toLocaleTimeString("en-US", {
-            timeZone: "Indian/Mauritius", hour: '2-digit', minute: '2-digit'
+            timeZone: "Africa/Johannesburg", hour: '2-digit', minute: '2-digit'
         });
         document.getElementById("clock").innerText = time;
     }
