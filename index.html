@@ -19,9 +19,19 @@
 
 <b>This page is hand coded on a cellphone so don't expect too much</b>
 
-<h2>I'm currently in Durban</h2>
+<h2>I'm currently in Zanzibar</h2>
 
-<h2>The time in Durban is <span id="clock"></span></h2>
+Sound from my apartment:
+<audio controls>
+    <source src="Zanzibar.m4a" type="audio/x-m4a">
+</audio>
+
+<img src="Zanzibar%20Blue%20House.jpg">
+
+<h2>The time in Zanzibar is <span id="clock"></span></h2>
+<h2>2023-06-29</h2>
+
+I was in Johannesburg
 
 <h2>2023-06-22</h2>
 
@@ -52,7 +62,7 @@ I was in Durban
 <script type="text/javascript">
     function updateClockTime() {
         const time = new Date().toLocaleTimeString("en-US", {
-            timeZone: "Africa/Johannesburg", hour: '2-digit', minute: '2-digit'
+            timeZone: "Africa/Dar_es_Salaam", hour: '2-digit', minute: '2-digit'
         });
         document.getElementById("clock").innerText = time;
     }
